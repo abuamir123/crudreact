@@ -1,0 +1,29 @@
+{
+  "patients": [
+    {
+      "id": 1,
+      "pname": "suraj",
+      "email": "suraj@gmail.com"
+    },
+    {
+      "id": 2,
+      "pname": "Rajesh",
+      "email": "rajesh@gmail.com"
+    },
+    {
+      "id": 3,
+      "pname": "suresh",
+      "email": "suresh@gmail.com"
+    },
+    {
+      "pname": "abu amir",
+      "email": "amir@gmail.com",
+      "id": 4
+    },
+    {
+      "pname": "rakesh",
+      "email": "rakesh@gmail.com",
+      "id": 5
+    }
+  ]
+}
