@@ -10,6 +10,7 @@ import View from "./View"
 import AddIcon from '@material-ui/icons/Add';
 import { deepPurple, green } from '@material-ui/core/colors';
 import { useState, useEffect } from "react";
+import Edit from "@material-ui/icons/Edit";
 const useStyles = makeStyles({
     headingColor: {
         backgroundColor: deepPurple[400],
@@ -21,10 +22,21 @@ const useStyles = makeStyles({
     },
 })
 function List() {
+    const [modal,setModal]=useState(false)
     const [patients, setPatient] = useState([])
+    const toggleModal = () => {
+        setModal(!modal);
+      };
     useEffect(() => {
         getAllPatient()
     })
+    const handleDelete= async id =>
+    {
+        console.log("delete click ")
+        console.log(id)
+     await axios.delete(`http://localhost:8081/patient/delete/${id}`);
+     
+    }
 
     async function getAllPatient() {
         try {
@@ -37,13 +49,13 @@ function List() {
         }
     }
     const classes = useStyles();
-    return (<div>
+    return (<div container>
       
         <Box textAlign="center" p={3} className={classes.stuListColor}>
             <Typography variant="h4">Patients List</Typography>
         </Box>
         <TableContainer component={Paper}>
-            <Table>
+            <Table style={{ width: 1700,margin:40 }}>
                 <TableHead>
                     <TableRow style={{ backgroundColor: "#616161" }}>
                         <TableCell align="center" className={classes.tableHeadCell}>No</TableCell>
@@ -66,10 +78,10 @@ function List() {
                                 <IconButton><Link to={`/View/${patient.id}`}><VisibilityIcon color="primary" /></Link></IconButton>
                             </Tooltip>
                             <Tooltip title="Edit">
-                                <IconButton><Link to={"/Edit"}><EditIcon /></Link></IconButton>
+                                <IconButton><Link to={`/Edit/${patient.id}`} onClick={toggleModal}><EditIcon /></Link></IconButton>
                             </Tooltip>
                             <Tooltip title="Delete">
-                                <IconButton ><DeleteIcon color="secondary" /></IconButton>
+                                <IconButton onClick={()=>handleDelete(patient.id)}><DeleteIcon color="secondary" /></IconButton>
                             </Tooltip>
                         </TableCell>
                     </TableRow>
@@ -79,8 +91,11 @@ function List() {
                 </TableBody>
             </Table>
         </TableContainer>
+        
+        {modal && (<Edit />)}
     </div>);
 
 }
+
 
 export default List;

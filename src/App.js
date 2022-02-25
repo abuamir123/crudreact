@@ -13,7 +13,7 @@ function App() {
        <Routes>
           <Route path="/" element={<Home/>} />
           <Route path="/view/:id" element={<View/>} />
-          <Route path="/edit" element={<Edit/>} />
+          <Route path="/edit/:id" element={<Edit/>} />
           <Route path="/mainpage" element={<MainPage/>} />
       {/* <Route exact path="/" component={< Home />}></Route> */}
       </Routes>

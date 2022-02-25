@@ -7,14 +7,15 @@ import "./MainPage.css"
 import { useHistory, useNavigate, useParams } from "react-router-dom";
 
 
-const MainPage = ()=> {
+const MainPage = (props)=> {
+    const {modal,setModal}=props;
     const [patients,setPatients]=useState({
         name:"",
         email:""
     })
     const navigate=useNavigate()
     function handleClick(){
-        navigate("/List")
+        setModal(false)
 
     }
     const [status,setStatus]=useState();
@@ -48,7 +49,7 @@ const MainPage = ()=> {
     <div className="modal">
         <div className="overlay"></div>
         <div className="modal-content">
-    <div container>  <Box textAlign="center" className="" p={2} mb={2}>
+    <div>  <Box textAlign="center" className="" p={2} mb={2}>
     <Typography variant="h2">React CRUD </Typography>
    </Box>
    <Grid container justify="center" spacing={4}>
@@ -71,7 +72,7 @@ const MainPage = ()=> {
       </Box>
      </form>
      <Box m={3} textAlign="center">
-           <Button variant="contained" color="primary" onClick={handleClick()}>Back to Home</Button>
+           <Button variant="contained" color="primary" onClick={handleClick}>Back to Home</Button>
      </Box>
     </Grid>
 

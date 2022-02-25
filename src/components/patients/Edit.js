@@ -4,6 +4,7 @@ import { deepPurple, green } from '@material-ui/core/colors';
 import { useState, useEffect } from "react";
 import { useHistory, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import "../pages/MainPage.css"
 const useStyles = makeStyles({
  headingColor: {
   backgroundColor: deepPurple[400],
@@ -20,9 +21,56 @@ function Edit() {
     const navigate=useNavigate()
     function handleClick(){
         navigate("/")
-
     }
-    return (   <>
+    const {id}=useParams();
+    const [patient,setpatient]=useState({
+      name:"",
+      email:""
+    });
+
+    useEffect(()=>{ 
+      getPatient();
+    }, [id]);
+    
+      async function getPatient() {
+      try{
+        const patient=await axios.get(`http://localhost:8081/patient/patient/${id}`)
+        setpatient(patient.data);
+      }
+      catch(error)
+      {
+        console.log("something is wrong in edit")
+      }
+    }
+
+    function onTextFieldChange(e){
+      setpatient({
+        ...patient,
+        [e.target.name]:e.target.value
+      })
+    }
+    async function onFormSubmit(e){
+     e.preventDefault();
+     try{
+          await axios.put(`http://localhost:8081/patient/update/${id}`,patient)
+          navigate("/")
+
+     }
+     catch(error)
+     {
+       console.log("something is wrong in edit")
+     }
+
+     
+   }
+   
+
+      // const {title,children,openPopup,setopenPopup}=props
+    
+    return (   
+     <div className="modal">
+        <div className="overlay"></div>
+        <div className="modal-content">
         <Box textAlign="center" p={2} className={classes.headingColor} mb={2}>
          <Typography variant="h2">React CRUD with API Call</Typography>
         </Box>
@@ -35,17 +83,17 @@ function Edit() {
           <form>
            <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
-             <TextField autoComplete="id" name="id" variant="outlined" required fullWidth id="id" label="ID" autoFocus value={""} disabled />
+             <TextField autoComplete="id" name="id" variant="outlined" required fullWidth id="id" label="ID" autoFocus value={id} disabled />
             </Grid>
             <Grid item xs={12} sm={6}>
-             <TextField autoComplete="stuname" name="stuname" variant="outlined" required fullWidth id="stuname" label="Name" value={""}  />
+             <TextField autoComplete="name" name="name" variant="outlined" required fullWidth id="pname" label="Name" value={patient.name} onChange={e=>onTextFieldChange(e)}  />
             </Grid>
             <Grid item xs={12}>
-             <TextField autoComplete="email" name="email" variant="outlined" required fullWidth id="email" label="Email Address" value={""}  />
+             <TextField autoComplete="email" name="email" variant="outlined" required fullWidth id="email" label="Email Address" value={patient.email}  onChange={e=>onTextFieldChange(e)} />
             </Grid>
            </Grid>
            <Box m={3}>
-            <Button type="button" variant="contained" color="primary" fullWidth > Update </Button>
+            <Button type="button" variant="contained" color="primary" fullWidth onClick={e=>onFormSubmit(e)}> Update </Button>
            </Box>
           </form>
           <Box m={3} textAlign="center">
@@ -53,7 +101,10 @@ function Edit() {
           </Box>
          </Grid>
         </Grid >
-       </> );
+        </div>
+   </div>
+    
+        );
 }
 
 export default Edit;

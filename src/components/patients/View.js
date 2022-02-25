@@ -27,7 +27,7 @@ function View() {
     },[id])
     async function getPatient(){
         try{
-            const patients=await axios.get(`http://localhost:8888/patients/${id}`)
+            const patients=await axios.get(`http://localhost:8081/patient/patient/${id}`)
             setpatients(patients.data)
 
         }
@@ -59,7 +59,7 @@ function View() {
      <TableBody>
       <TableRow>
        <TableCell align="center">{patients.id}</TableCell>
-       <TableCell align="center">{patients.pname}</TableCell>
+       <TableCell align="center">{patients.name}</TableCell>
        <TableCell align="center">{patients.email}</TableCell>
       </TableRow>
      </TableBody>
